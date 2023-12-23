@@ -68,24 +68,4 @@ async function secretKeyToByteArr(iv, secretKey) {
    keyB.set(key, iv.length);
    return keyB;
 }
-function getSecretKey(){
-   return localStorage.getItem("SITE_KEY")
-}
-function setSecretKey(key){
-   if(key.length <10){
-      alert("Key must be at least 10 characters long")
-   }
-   localStorage.setItem("SITE_KEY", key);
-}
-async function toRequestBody(toml){
-   const requestBody = JSON.parse("{}");
-   const toEncrypt = JSON.parse("{}");
-   toEncrypt.toml = toml; 
-   const toEncryptS=JSON.stringify(toEncrypt) ;
-   const encrypted =await window.encrypt( toEncryptS);
-   requestBody.encrypted = encrypted;
-   return requestBody; 
-}
-window.setSecretKey = setSecretKey;
-window.encrypt = encrypt;
-window.decrypt = decrypt;
+
