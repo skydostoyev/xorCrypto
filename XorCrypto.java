@@ -7,26 +7,7 @@ import java.util.Base64;
 import java.nio.charset.StandardCharsets;
 import java.security.NoSuchAlgorithmException;
 public class XorCrypto{
-  public class Test {
-    public static String test() throws Exception {
-        String input = "世界123456789012345678901234567890";
-        byte[] inputB = input.getBytes("UTF-8");
-
-        String input64 = Base64.getEncoder().encodeToString(inputB);
-
-        MessageDigest sha256 = MessageDigest.getInstance("SHA-256");
-        byte[] inputSha = sha256.digest(inputB);
-
-        byte[] inputXor = new byte[16];
-        for (int i = 0; i < 16; i++) {
-            inputXor[i] = (byte) (inputB[i] ^ inputSha[i]);
-        }
-
-        String inputXor64 = Base64.getEncoder().encodeToString(inputXor);
-        return(inputXor64);
-    }
-}
-
+  
    public static String encrypt(String input,String secretKey) {
       try{
       //Step:generate keyB from iv and secretKey
