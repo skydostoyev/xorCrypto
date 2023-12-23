@@ -1,10 +1,14 @@
 # xorCrypto
-You can encrypto a text with a password with this library. 
+You can encrypt a short text with a password using this library. 
+(Max input size:1,000,000 bytes)
+Note that it is relatively very slow than AES as it depends on SHA256.
 ```
 String encrypted = encrypt("text","key");
 String text = decrypt(encrypted,"key");
-
 ```
-As it uses iv, random bytes, the results will be different for a same input. 
+It recursively generates random bytes from the key and using SHA256.
+Through the loop, it takes xor with the bytes of the input.
+As it uses iv, randomly generated 16 bytes, the results will be different for a same input. 
+
 It has currntly two language versions, java and javascript.
-And it is easy extremely easy to implement the algorithm in other languages.
+And it is extremely easy to implement the exact same algorithm in other languages.
