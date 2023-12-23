@@ -1,2 +1,4 @@
 # xorCrypto
-You encrypto a text with a password in java and javascript. And it is easy to implement the code in other languages.
+You can encrypto a text with a password with this laibrary. 
+It has currntly two language versions, java and javascript.
+And it is easy extremely easy to implement the algorithm in other languages.
