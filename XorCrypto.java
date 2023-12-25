@@ -8,6 +8,7 @@ import java.nio.charset.StandardCharsets;
 import java.security.NoSuchAlgorithmException;
 public class XorCrypto{
   
+
    public static String encrypt(String input,String secretKey) {
       try{
       //Step:generate keyB from iv and secretKey
@@ -78,9 +79,8 @@ public class XorCrypto{
       
       //Step:Prepare a new instance of MessageDigest, sha
       MessageDigest sha = MessageDigest.getInstance("SHA-256");
-      
-      
-      for(int h=0;h<2;h++){
+      keyB = sha.digest(keyB);
+      byte[] digestOut = Arrays.copyOfRange(keyB,0,32);
       //Step:Loop through the inputB32 array, 32 bytes at a time
       for(int i=0;i<1000000;i++)
       { 
@@ -89,26 +89,29 @@ public class XorCrypto{
             break;//Prevent out of bound error
          }
          
-         //Step:Update KeyB with sha
-         keyB = sha.digest(keyB); 
+         //Step:Concaternate 2 bytes arrays, digestOut and keyB
+         byte[] digestIn = concatenateByteArrays(digestOut, keyB);
          
-         //Step: We assume sha.digest(keyB) always returns 32 bytes
-         if(keyB.length != 32)
+         //Step:Update digestOut with sha
+         digestOut = sha.digest(digestIn); 
+         
+         //Step: We assume sha.digest always returns 32 bytes
+         if(digestOut.length != 32)
          {
-           throw new Exception("keyB.length != 32");
+           throw new Exception("digestOut.length != 32");
          }
          //Step:
          //We take next 32 bytes from the variable inputB32
          byte[] nextBytes = Arrays.copyOfRange(inputB32, i * 32, (i + 1) * 32);
 
-         //Step: Take xor of 2 byte arrays (keyB xor inputB)
-         for (int j = 0; j < keyB.length; j++) {
-            nextBytes[j] ^= keyB[j];
+         //Step: Take xor of 2 byte arrays (digestOut xor inputB)
+         for (int j = 0; j < digestOut.length; j++) {
+            nextBytes[j] ^= digestOut[j];
          }
          
          //Step:Append the result into D
          System.arraycopy(nextBytes, 0, outputB32, i * 32, nextBytes.length);
-      }}
+      }
       return outputB32;
    }
    public static byte[] secretKeyToByteArr(byte[]iv,String secretKey) throws Exception{
@@ -125,4 +128,17 @@ public class XorCrypto{
       System.arraycopy(key, 0, keyB, iv.length, key.length);
       return keyB;
    }
+   
+    public static byte[] concatenateByteArrays(byte[] array1, byte[] array2) {
+        // Create a new array large enough to hold both arrays
+        byte[] result = new byte[array1.length + array2.length];
+
+        // Copy the first array into the start of the result array
+        System.arraycopy(array1, 0, result, 0, array1.length);
+
+        // Copy the second array into the result array, starting right after the first array ends
+        System.arraycopy(array2, 0, result, array1.length, array2.length);
+
+        return result;
+    }
 }

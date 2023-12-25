@@ -1,7 +1,8 @@
 
 
-async function encrypt(input) {
-   const keyB = await secretKeyToByteArr(null, getSecretKey());
+async function encrypt(input, secretKey) {
+   
+   const keyB = await secretKeyToByteArr(null, secretKey);
    const iv = keyB.slice(0, 16);
    const inputB = new TextEncoder().encode(input);
    const inputB32 = new Uint8Array(inputB.length + (32 - inputB.length % 32));
@@ -18,11 +19,12 @@ async function encrypt(input) {
    return btoa(String.fromCharCode.apply(null, ivAndEncrypted));
 }
 
-async function decrypt(encrypted) {
+async function decrypt(encrypted,secretKey) {
+  
    const ivAndEncrypted = Uint8Array.from(atob(encrypted), c => c.charCodeAt(0));
    const iv = ivAndEncrypted.slice(0, 16);
    const xorB = ivAndEncrypted.slice(16);
-   const keyB = await secretKeyToByteArr(iv,   getSecretKey());
+   const keyB = await secretKeyToByteArr(iv,   secretKey);
 
    const inputB32 = await xorLoop(xorB, keyB);
    const paddingLength = inputB32[inputB32.length - 1];
@@ -35,25 +37,27 @@ async function xorLoop(inputB32, keyB) {
    if (inputB32.length % 32 !== 0) {
        throw new Error("inputB32.length % 32 !== 0");
    }
-
+   
    const outputB32 = new Uint8Array(inputB32.length);
+   keyB = new Uint8Array(await crypto.subtle.digest('SHA-256', keyB))
+   let digestOut= keyB.slice(0, 32);
+   
+   for (let i = 0; i < inputB32.length; i += 32) {
+      if (i >= inputB32.length) {
+         break;
+      }
+      
+      let digestIn=concatenateByteArrays(digestOut,keyB);
+      digestOut = new Uint8Array(await crypto.subtle.digest('SHA-256', digestIn));
+      const nextBytes = inputB32.slice(i, i + 32);
 
-   for (let h = 0; h < 2; h++) {
-       for (let i = 0; i < inputB32.length; i += 32) {
-           if (i >= inputB32.length) {
-               break;
-           }
+      for (let j = 0; j < 32; j++) {
+         nextBytes[j] ^= digestOut[j % digestOut.length];
+      }
 
-           keyB = new Uint8Array(await crypto.subtle.digest('SHA-256', keyB));
-           const nextBytes = inputB32.slice(i, i + 32);
-
-           for (let j = 0; j < 32; j++) {
-               nextBytes[j] ^= keyB[j % keyB.length];
-           }
-
-           outputB32.set(nextBytes, i);
-       }
+      outputB32.set(nextBytes, i);
    }
+   
    return outputB32;
 }
 
@@ -68,4 +72,19 @@ async function secretKeyToByteArr(iv, secretKey) {
    keyB.set(key, iv.length);
    return keyB;
 }
+function concatenateByteArrays(array1, array2) {
+   // Create a new array large enough to hold both arrays
+   var result = new Uint8Array(array1.length + array2.length);
 
+   // Copy the first array into the start of the result array
+   result.set(array1);
+
+   // Copy the second array into the result array, starting right after the first array ends
+   
+   result.set(array2, array1.length);
+   
+   return result;
+}
+
+window.encrypt2 = encrypt;
+window.decrypt2 = decrypt;
