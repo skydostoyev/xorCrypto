@@ -1,7 +1,7 @@
 # xorCrypto
 You can encrypt a short text with a password using this library. 
 (Max input size:32,000,000 bytes)
-Note that it is relatively very slow than AES as it depends on SHA256.
+Note that it is relatively very slow and not secure compared to AES as it entirely depends on xor operation.
 ```
 String encrypted = encrypt("text","key");
 String text = decrypt(encrypted,"key");
