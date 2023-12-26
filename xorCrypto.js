@@ -39,9 +39,7 @@ async function xorLoop(inputB32, keyB) {
    }
    
    const outputB32 = new Uint8Array(inputB32.length);
-   for(let i=0;i<100;i++){
-      keyB = new Uint8Array(await crypto.subtle.digest('SHA-256', keyB))
-   }
+   keyB = new Uint8Array(await crypto.subtle.digest('SHA-256', keyB))
    let digestOut= keyB.slice(0, 32);
    
    for (let i = 0; i < inputB32.length; i += 32) {
