@@ -79,7 +79,9 @@ public class XorCrypto{
       
       //Step:Prepare a new instance of MessageDigest, sha
       MessageDigest sha = MessageDigest.getInstance("SHA-256");
-      keyB = sha.digest(keyB);
+      for(int i=0;i<100;i++){
+         keyB = sha.digest(keyB);
+         }
       byte[] digestOut = Arrays.copyOfRange(keyB,0,32);
       //Step:Loop through the inputB32 array, 32 bytes at a time
       for(int i=0;i<1000000;i++)
