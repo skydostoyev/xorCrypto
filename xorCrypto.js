@@ -34,10 +34,10 @@ async function decrypt(encrypted,secretKey) {
 }
 
 async function xorLoop(inputB32, keyB) {
-   if (inputB32.length % 32 !== 0) {
-       throw new Error("inputB32.length % 32 !== 0");
-   }
-   
+   if (inputB32.length % 32 !== 0 || keyB.length <= 1000000*32) {
+      throw new Error("inputB32.length % 32 !== 0" +" || inputB32.length>1000000*32");
+  }
+  
    const outputB32 = new Uint8Array(inputB32.length);
    keyB = new Uint8Array(await crypto.subtle.digest('SHA-256', keyB))
    let digestOut= keyB.slice(0, 32);
