@@ -11,4 +11,4 @@ Through the loop, it takes xor with the bytes of the input.
 As it generates the encryption key from the user password(secret key) together with a iv, a random 16 bytes, the results will be different for a same input text. 
 
 It has currently two language versions, java and javascript. Both output exactly same results for a same input.
-And it is extremely easy to implement the exact same algorithm in other languages.
+And for ChatGPT, it is extremely easy to implement the exact same algorithm in other languages.
