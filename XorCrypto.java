@@ -70,9 +70,9 @@ public class XorCrypto{
    }
    public static byte[] xorLoop(byte[] inputB32,byte[] keyB) throws Exception{
       //Step:Check if inputB32.length is multiple of 32
-      if(inputB32.length%32 != 0)
+       if(!(inputB32.length%32 == 0 && inputB32.length <= 1000000*32))
       {
-        throw new Exception("inputB32.length%32 != 0");
+        throw new Exception("inputB32.length%32 != 0 || inputB32.length > 1000000*32");
       }
       //Step: Prepare a new array, outputB32, for the result
       byte[] outputB32 = new byte[inputB32.length];
