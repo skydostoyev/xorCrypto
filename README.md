@@ -1,6 +1,6 @@
 # xorCrypto
 You can encrypt a text with a password using this library. 
-(Max input size:32,000,000 bytes)
+(Max input size:32MB)
 ```
 String encrypted = encrypt("text","key");
 String text = decrypt(encrypted,"key");
