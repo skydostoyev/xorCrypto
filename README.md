@@ -1,5 +1,5 @@
 # xorCrypto
-You can encrypt a short text with a password using this library. 
+You can encrypt a text with a password using this library. 
 (Max input size:32,000,000 bytes)
 Note that it is relatively very slow and not secure compared to AES as it entirely depends on xor operation.
 ```
