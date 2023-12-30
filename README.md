@@ -1,5 +1,5 @@
 # xorCrypto
-You can encrypt a text with a password using this library. 
+You can encrypt a text in UTF8 format with a password using this library. 
 (Max input size:32MB)
 ```
 String encrypted = encrypt("text","key");
