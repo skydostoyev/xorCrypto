@@ -14,4 +14,4 @@ It has currently two language versions, java and javascript. Both output exactly
 
 For ChatGPT, it may be extremely easy to implement the exact same algorithm in other languages.Actually, roughly 90% of the current code is by ChatGPT.
 
-Note that it is relatively very slow and not secure compared to AES as it entirely depends on xor operation only. But major known typical security problems are covered in the algorithm.
+Note that it is relatively very slow and not secure compared to AES as it entirely depends on xor operation only. But major known typical security problems of xor only encryption are covered in the algorithm.
