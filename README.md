@@ -1,6 +1,10 @@
 # xorCrypto
-With this library, you can encrypt text in UTF8 format using a password. However, please note that the password must consist of characters that are one byte each. 
-(Max input size:32MB)
+With this library, you can encrypt text in UTF8 format using a password. 
+
+Note that:
+Max input size:32MB
+The password must consist of characters that are one byte each. 
+
 ```
 String encrypted = encrypt("text in utf8 format","password");
 String text = decrypt(encrypted,"password");
